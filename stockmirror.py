@@ -1,5 +1,5 @@
 ## stockmirror.py 
-## This program was made by @nolimitcarter & @brodieschaefers
+
 
 from Tkinter import *
 import locale
