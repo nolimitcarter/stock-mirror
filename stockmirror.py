@@ -1,9 +1,9 @@
 ## stockmirror.py 
 
 
-from Tkinter import *
+from tkinter import *
 import locale
-import thredding 
+import threading 
 import time 
 import requests
 import json
