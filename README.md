@@ -5,6 +5,13 @@ A version of magic-mirror/stock-mirror but 100% stock, crypto, fx, and metal bas
 
 ## Installation 
 
+Clone the repository. 
+`git clone github.com/nolimitcarter/stock-mirror`
+
+Navigate to the directory the program is in.
+`cd stock-mirror` 
+
+Install Dependencies. 
 `sudo pip3 install -r requirements.txt`
 
 `sudo apt-get install python3-imaging-tk`
