@@ -9,10 +9,12 @@ A version of magic-mirror/stock-mirror but 100% stock, crypto, fx, and metal bas
 
 `sudo apt-get install python3-imaging-tk`
 
+`python3 setup.py`
+
 
 ## Running 
 
-`python3 setup.py`
+`python3 stockmirror.py`
 
 ## Features
 
