@@ -1,6 +1,7 @@
 ## stockmirror.py 
 
 
+
 from tkinter import *
 import locale
 import threading 
@@ -19,11 +20,11 @@ ui_locale = '' # e.g. 'fr_FR' fro French, '' as default
 time_format = 12 # 12 or 24
 date_format = "%b %d, %Y" # check python doc for strftime() for options
 news_country_code = 'us'
-weather_api_token = '<TOKEN>' # create account at https://darksky.net/dev/
+weather_api_token = '995bbc902a5a52a3306f877627561db3' # create account at https://darksky.net/dev/
 weather_lang = 'en' # see https://darksky.net/dev/docs/forecast for full list of language parameters values
 weather_unit = 'us' # see https://darksky.net/dev/docs/forecast for full list of unit parameters values
-latitude = None # Set this if IP location lookup does not work for you (must be a string)
-longitude = None # Set this if IP location lookup does not work for you (must be a string)
+latitude = '40' # Set this if IP location lookup does not work for you (must be a string)
+longitude = '-73' # Set this if IP location lookup does not work for you (must be a string)
 xlarge_text_size = 94
 large_text_size = 48
 medium_text_size = 28
@@ -143,15 +144,17 @@ class Weather(Frame):
                 lat = location_obj['latitude']
                 lon = location_obj['longitude']
 
-                location2 = "%s, %s" % (location_obj['city'], location_obj['region_code'])
+                #location2 = "%s, %s" % (location_obj['city'], location_obj['region_code'])
 
                 # get weather
                 weather_req_url = "https://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid={}" % (weather_api_token, lat,lon,weather_lang,weather_unit)
+                #print(weather['main']['temp'])
+                #print(weather)
             else:
                 location2 = ""
                 # get weather
-                weather_req_url = "https://api.darksky.net/forecast/%s/%s,%s?lang=%s&units=%s" % (weather_api_token, latitude, longitude, weather_lang, weather_unit)
-
+                weather_req_url = "https://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid={}" % (weather_api_token, latitude,longitude,weather_lang,weather_unit)
+               #https://api.darksky.net/forecast/%s/%s,%s?lang=%s&units=%s 
             r = requests.get(weather_req_url)
             weather_obj = json.loads(r.text)
 
