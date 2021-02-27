@@ -146,7 +146,7 @@ class Weather(Frame):
                 location2 = "%s, %s" % (location_obj['city'], location_obj['region_code'])
 
                 # get weather
-                weather_req_url = "https://api.darksky.net/forecast/%s/%s,%s?lang=%s&units=%s" % (weather_api_token, lat,lon,weather_lang,weather_unit)
+                weather_req_url = "https://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid={}" % (weather_api_token, lat,lon,weather_lang,weather_unit)
             else:
                 location2 = ""
                 # get weather
