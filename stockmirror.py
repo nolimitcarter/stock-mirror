@@ -147,19 +147,19 @@ class Weather(Frame):
                 #location2 = "%s, %s" % (location_obj['city'], location_obj['region_code'])
 
                 # get weather
-                weather_req_url = "https://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid={}" % (weather_api_token, lat,lon,weather_lang,weather_unit)
+                weather_req_url = "http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=".format(weather_api_token, lat,lon,weather_lang,weather_unit)
                 #print(weather['main']['temp'])
                 #print(weather)
             else:
                 location2 = ""
                 # get weather
-                weather_req_url = "https://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid={}" % (weather_api_token, latitude,longitude,weather_lang,weather_unit)
+                weather_req_url = "https://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid={}".format(weather_api_token, latitude,longitude,weather_lang,weather_unit)
                #https://api.darksky.net/forecast/%s/%s,%s?lang=%s&units=%s 
             r = requests.get(weather_req_url)
             weather_obj = json.loads(r.text)
 
             degree_sign= u'\N{DEGREE SIGN}'
-            temperature2 = "%s%s" % (str(int(weather_obj['currently']['temperature'])), degree_sign)
+            #temperature2 = "%s%s" % (str(int(weather_obj['currently']['temperature'])), degree_sign)
             currently2 = weather_obj['currently']['summary']
             forecast2 = weather_obj["hourly"]["summary"]
 
