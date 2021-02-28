@@ -10,7 +10,13 @@ import requests
 import json
 import traceback
 import feedparser
+import datetime
+import random
+import urllib
+import string
 
+from googlefinance import getQuotes
+from contextlib import contextmanager
 from PIL import Image, ImageTk
 from contextlib import contextmanager
 
