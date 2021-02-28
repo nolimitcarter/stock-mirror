@@ -1,6 +1,6 @@
 # stock-mirror
 
-A version of magic-mirror/stock-mirror but 100% stock, crypto, fx, and metal based. 
+A version of magic-mirror/smart-mirror but 100% stock, crypto, fx, and metal based. 
 + additional features/ add-ons
 
 ## Installation 
