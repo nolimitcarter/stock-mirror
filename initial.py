@@ -25,9 +25,6 @@ weather_lang = 'en' # see https://darksky.net/dev/docs/forecast for full list of
 weather_unit = 'us' # see https://darksky.net/dev/docs/forecast for full list of unit parameters values
 latitude = '40' # Example:  Set this if IP location lookup does not work for you (must be a string)
 longitude = '-73' # Example: Set this if IP location lookup does not work for you (must be a string)
-city = 'Set City' + ', '
-region = 'Set Region'
-wind = 'Wind Speed: '
 xlarge_text_size = 94
 large_text_size = 48
 medium_text_size = 28
@@ -108,11 +105,9 @@ class Weather(Frame):
         Frame.__init__(self, parent, bg='black')
         self.temperature = ''
         self.forecast = ''
-        self.description = ''
         self.location = ''
         self.currently = ''
         self.icon = ''
-        self.stock = ''
         self.degreeFrm = Frame(self, bg="black")
         self.degreeFrm.pack(side=TOP, anchor=W)
         self.temperatureLbl = Label(self.degreeFrm, font=('Helvetica', xlarge_text_size), fg="white", bg="black")
@@ -152,50 +147,23 @@ class Weather(Frame):
                 #location2 = "%s, %s" % (location_obj['city'], location_obj['region_code'])
 
                 # get weather
-                weather_req_url = "http://api.openweathermap.org/data/2.5/weather?q=Charlotte&appid={APIKEY}".format(city)
-                res = requests.get(url)
-                data = res.json()
-                temp = data['main']['temp']
-                wind_speed = data['wind']['speed']
-                description = data['weather']['0']['description']
-                #print('Temp: ', temp)
+                weather_req_url = "http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=".format(weather_api_token, lat,lon,weather_lang,weather_unit)
                 #print(weather['main']['temp'])
                 #print(weather)
             else:
-                #city = "Charlotte, "
-                #region = "United States"
-                location2 = city + region
+                location2 = ""
                 # get weather
-                weather_req_url = "https://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid={APIKEY}".format(city)
+                weather_req_url = "https://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid={}".format(weather_api_token, latitude,longitude,weather_lang,weather_unit)
                #https://api.darksky.net/forecast/%s/%s,%s?lang=%s&units=%s 
             r = requests.get(weather_req_url)
             weather_obj = json.loads(r.text)
 
             degree_sign= u'\N{DEGREE SIGN}'
-            #temperature2 = "%s%s" % (str(int(weather_obj['main']['temp'])), degree_sign)
-            c = int(weather_obj["main"]["temp"])
-            f = int(1.8*(c)+32)
-            temperature2 = "%s%s" % (str(f), degree_sign)
-            #print(weather_obj[0])['weather']['main']
-            #currently2 = (str(int(weather_obj['main']['temp_max'])), degree_sign)
-            #wjson = weather_obj
-            #wjdata = json.loads(wjson)
-            #data = json.dumps(wjdata)
-            #data = weather_obj['wind']['wind_speed']
-            #city2 = (str(weather_obj['sys']['country']), degree_sign)
-            mt = int(weather_obj["main"]["temp_max"])
-            mtf = int(1.8*(mt)+32)
-            currently2 = "%s%s" % (str(mtf), degree_sign)
-            #currently2 = weather_obj['main']['temp_max']
+            #temperature2 = "%s%s" % (str(int(weather_obj['currently']['temperature'])), degree_sign)
+            currently2 = weather_obj['currently']['summary']
+            forecast2 = weather_obj["hourly"]["summary"]
 
-            lt = int(weather_obj["main"]["temp_min"])
-            ltf = int(1.8*(lt)+32)
-            forecast2 = "%s%s" % (str(ltf), degree_sign)
-            description2 = weather_obj['weather'][0]['description']
-            #forecast2 = (str(int(weather_obj["main"]["humidity"])), degree_sign)
-            #city2 = (str(weather_obj['sys']['country']), degree_sign)
-
-            icon_id = weather_obj["main"]["temp_max"]
+            icon_id = weather_obj['currently']['icon']
             icon2 = None
 
             if icon_id in icon_lookup:
@@ -237,61 +205,9 @@ class Weather(Frame):
 
         self.after(600000, self.get_weather)
 
-#    @staticmethod
-#    def convert_kelvin_to_fahrenheit(kelvin_temp):
-#        return 1.8 * (kelvin_temp - 273) + 32
-
-class Stock(Frame): 
-    def __init__(self, parent, *args, **kwargs): 
-        Frame.__init__(self, parent, bg="black")
-        self.config(bg='black')
-        self.title='Stocks'
-        self.stockLbl = Label(self, text=self.title, font=('Helvetica', medium_text_size), fg="white", bg="black")
-        self.stockLbl.pack(side=TOP, anchor=W)
-        self.stockContainer = Frame(self, bg="black")
-        self.stockContainer.pack(side=TOP)
-        self.stockLbl='Stocks Today'
-        self.priceLbl='Current Price (Rs.)'
-        self.stockNames= ['NFLX', 'TSLA', 'AMD', 'TCS']
-
-    def update_check(self):
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_stocks)
-        self.timer.start(500)
-
-    def update_stock(self):
-        global current_userid
-
-        if self.prev_userid != current_userid:
-
-
-            for i in reversed(range(self.fbox.count())):
-                self.fbox.itemAt(i).widget().setParent(None)
-
-            self.prev_userid = current_userid
-
-            if (current_userid != 0):
-                sql_command = " SELECT * from stocks where userid = %s " % current_userid
-                cursor.execute(sql_command)
-                self.obj = cursor.fetchall()
-
-                self.stockNames = []
-
-                for i,stock in enumerate(self.obj):
-                    self.stockNames.append(stock[2])
-
-            else:
-                self.stockNames = ['NFLX','TSLA', 'AMD','TCS']
-
-            for i,stock in enumerate(self.stockNames):
-                stkLbl = QLabel(str(stock))
-                data  = getQuotes(stock)
-                prcLbl = QLabel(data[0]['LastTradePrice'])
-                stkLbl.setFont(font1)
-                prcLbl.setFont(font1)
-                self.fbox.addRow(stkLbl,prcLbl)
-
-
+    @staticmethod
+    def convert_kelvin_to_fahrenheit(kelvin_temp):
+        return 1.8 * (kelvin_temp - 273) + 32
 
 
 class News(Frame):
@@ -390,10 +306,7 @@ class FullscreenWindow:
         self.tk.bind("<Escape>", self.end_fullscreen)
         # clock
         self.clock = Clock(self.topFrame)
-        self.clock.pack(side=RIGHT, anchor=NE, padx=100, pady=60)
-        #stocks 
-        self.stock = Stock(self.bottomFrame)
-        self.stock.pack(side=RIGHT, anchor=E, padx=100, pady=200) # make sure to set these later
+        self.clock.pack(side=RIGHT, anchor=N, padx=100, pady=60)
         # weather
         self.weather = Weather(self.topFrame)
         self.weather.pack(side=LEFT, anchor=N, padx=100, pady=60)
