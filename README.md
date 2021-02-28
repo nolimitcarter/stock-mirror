@@ -1,6 +1,6 @@
 # stock-mirror
 
-A version of magic-mirror/smart-mirror but 100% stock, crypto, fx, and metal based. 
+A Raspberry Pi powered magic-mirror/smart-mirror that displays current information about stocks, cryptocurrencies, fx majors, metals, weather, time, etc. 
 + additional features/ add-ons
 
 ## Installation 
