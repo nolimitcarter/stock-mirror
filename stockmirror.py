@@ -16,7 +16,6 @@ import urllib
 import string
 
 from googlefinance import getQuotes
-from contextlib import contextmanager
 from PIL import Image, ImageTk
 from contextlib import contextmanager
 
